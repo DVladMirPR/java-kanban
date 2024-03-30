@@ -1,4 +1,4 @@
-package taskManager;
+package taskManagerSprint4.service;
 
 public enum Status {
     NEW,
