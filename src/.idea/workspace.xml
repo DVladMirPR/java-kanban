@@ -5,28 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ecc8c371-ec40-4f0b-8637-45f7759f7bc4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/codeStyles/codeStyleConfig.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/codeStyles/codeStyleConfig.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/uiDesigner.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/uiDesigner.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/java-kanban/java-kanban.iml" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/out/production/java-kanban/java-kanban.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/model/Epic.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/model/Epic.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/model/Subtask.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/model/Subtask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/model/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/model/Task.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/service/IdGenerator.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/service/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/service/Status.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/taskManagerSprint4/service/TaskManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/service/TaskManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ru/yandex/manager/model/Epic.java" beforeDir="false" afterPath="$PROJECT_DIR$/ru/yandex/manager/model/Epic.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
