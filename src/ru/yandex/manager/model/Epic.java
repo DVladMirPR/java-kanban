@@ -1,6 +1,7 @@
-package taskManagerSprint4.model;
+package ru.yandex.manager.model;
 
 public class Epic extends Task {
+    // Конструктор с параметрами
     public Epic(int id, String title, String description) {
         super(id, title, description);
     }

@@ -1,4 +1,4 @@
-package taskManagerSprint4.model;
+package ru.yandex.manager.model;
 
 public class Subtask extends Task {
     private int epicId;

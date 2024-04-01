@@ -1,6 +1,6 @@
-package taskManagerSprint4.model;
+package ru.yandex.manager.model;
 
-import taskManagerSprint4.service.Status;
+import ru.yandex.manager.service.Status;
 import java.util.Objects;
 public class Task {
     private int id;

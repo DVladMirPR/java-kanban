@@ -1,4 +1,4 @@
-package taskManagerSprint4.service;
+package ru.yandex.manager.service;
 
 public enum Status {
     NEW,

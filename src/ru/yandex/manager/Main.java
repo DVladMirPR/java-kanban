@@ -1,11 +1,9 @@
-package taskManagerSprint4;
+package ru.yandex.manager;
 
-import taskManagerSprint4.model.Epic;
-import taskManagerSprint4.model.Subtask;
-import taskManagerSprint4.model.Task;
-import taskManagerSprint4.service.TaskManager;
-import taskManagerSprint4.service.Status;
-
+import ru.yandex.manager.model.Epic;
+import ru.yandex.manager.model.Subtask;
+import ru.yandex.manager.model.Task;
+import ru.yandex.manager.service.TaskManager;
 
 public class Main {
     public static void main(String[] args) {
@@ -13,7 +11,6 @@ public class Main {
 
         Task task1 = new Task(1, "Задача 1", "Пройтись");
         Task task2 = new Task(2, "Задача 2", "Выпить кофе");
-
         Epic epic1 = new Epic(1, "Эпик 1", "Дожить до каникул");
         manager.addEpic(epic1);
         manager.addSubtask(epic1.getId(), new Subtask(1, "Подзадача 1", "Сдать проект", epic1.getId()));
@@ -22,7 +19,6 @@ public class Main {
         Epic epic2 = new Epic(2, "Эпик 2", "Увеличить количество часов в сутках");
         manager.addEpic(epic2);
         manager.addSubtask(epic2.getId(), new Subtask(3, "Подзадача 3", "Понять бесконечность", epic2.getId()));
-
         manager.addTask(task1);
         manager.addTask(task2);
 
@@ -36,10 +32,10 @@ public class Main {
             System.out.println(epic);
         }
 
-        manager.updateTaskStatus(task1.getId(), Status.IN_PROGRESS);
-        manager.updateTaskStatus(task2.getId(), Status.DONE);
-        manager.updateSubtaskStatus(1, Status.DONE);
-        manager.updateEpic(epic1.getId(), "Обновленный эпик", "Нарядить собаку");
+        manager.updateTask(task1);
+        manager.updateTask(task2);
+        manager.updateSubtask(new Subtask(1, "Новое название", "Новое описание", epic1.getId())); // Пример обновления подзадачи
+        manager.updateEpic(epic1);
 
         System.out.println("Статусы после изменений:");
         for (Task task : manager.getAllTasks()) {
