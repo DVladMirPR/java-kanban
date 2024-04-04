@@ -1,6 +1,7 @@
 package ru.yandex.manager.service;
 
 import ru.yandex.manager.model.Epic;
+import ru.yandex.manager.model.Status;
 import ru.yandex.manager.model.Subtask;
 import ru.yandex.manager.model.Task;
 
@@ -27,13 +28,10 @@ public class TaskManager {
     public void addSubtask(int epicId, Subtask subtask) {
         subtask.setId(generateId());
         subtask.setEpicId(epicId);
-        ArrayList<Integer> epicSubtaskList = epicSubtasks.get(epicId);
-        if (epicSubtaskList == null) {
-            epicSubtaskList = new ArrayList<>();
-            epicSubtasks.put(epicId, epicSubtaskList);
-        }
+        ArrayList<Integer> epicSubtaskList = epicSubtasks.computeIfAbsent(epicId, k -> new ArrayList<>());
         epicSubtaskList.add(subtask.getId());
         subtasks.put(subtask.getId(), subtask);
+        updateEpicStatus(epicId);
     }
 
     public void updateTask(Task taskToUpdate) {
@@ -41,11 +39,17 @@ public class TaskManager {
     }
 
     public void updateEpic(Epic epicToUpdate) {
-        epics.put(epicToUpdate.getId(), epicToUpdate);
+        Epic epic = epics.get(epicToUpdate.getId());
+        if (epic != null) {
+            epic.setTitle(epicToUpdate.getTitle());
+            epic.setDescription(epicToUpdate.getDescription());
+            updateEpicStatus(epicToUpdate.getId());
+        }
     }
 
     public void updateSubtask(Subtask subtaskToUpdate) {
         subtasks.put(subtaskToUpdate.getId(), subtaskToUpdate);
+        updateEpicStatus(subtaskToUpdate.getEpicId());
     }
 
     public void deleteTask(int taskId) {
@@ -59,6 +63,41 @@ public class TaskManager {
 
     public void deleteSubtask(int subtaskId) {
         subtasks.remove(subtaskId);
+        for (ArrayList<Integer> subtaskList : epicSubtasks.values()) {
+            if (subtaskList != null) {
+                for (int i = 0; i < subtaskList.size(); i++) {
+                    if (subtaskList.get(i) == subtaskId) {
+                        subtaskList.remove(i);
+                        break;
+                    }
+                }
+            }
+        }
+        for (Epic epic : epics.values()) {
+            updateEpicStatus(epic.getId());
+        }
+    }
+
+    public void deleteAllTasks() {
+        tasks.clear();
+    }
+
+    public void deleteAllEpics() {
+        epics.clear();
+        epicSubtasks.clear();
+        subtasks.clear();
+    }
+
+    public void deleteAllSubtasks() {
+        subtasks.clear();
+        for (ArrayList<Integer> subtaskList : epicSubtasks.values()) {
+            if (subtaskList != null) {
+                subtaskList.clear();
+            }
+        }
+        for (Epic epic : epics.values()) {
+            updateEpicStatus(epic.getId());
+        }
     }
 
     public ArrayList<Task> getAllTasks() {
@@ -83,6 +122,37 @@ public class TaskManager {
         }
         return epicSubtasksList;
     }
+
+    private void updateEpicStatus(int epicId) {
+        Epic epic = epics.get(epicId);
+        if (epic != null) {
+            ArrayList<Subtask> subtasksOfEpic = getSubtasksOfEpic(epicId);
+            boolean allSubtasksNew = true;
+            for (Subtask subtask : subtasksOfEpic) {
+                if (subtask.getStatus() != Status.NEW) {
+                    allSubtasksNew = false;
+                    break;
+                }
+            }
+            if (allSubtasksNew || subtasksOfEpic.isEmpty()) {
+                epic.setStatus(Status.NEW);
+            } else {
+                boolean allDone = true;
+                for (Subtask subtask : subtasksOfEpic) {
+                    if (subtask.getStatus() != Status.DONE) {
+                        allDone = false;
+                        break;
+                    }
+                }
+                if (allDone) {
+                    epic.setStatus(Status.DONE);
+                } else {
+                    epic.setStatus(Status.IN_PROGRESS);
+                }
+            }
+        }
+    }
+
 
     private int generateId() {
         return currentId++;

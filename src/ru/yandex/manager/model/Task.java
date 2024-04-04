@@ -1,6 +1,5 @@
 package ru.yandex.manager.model;
 
-import ru.yandex.manager.service.Status;
 import java.util.Objects;
 public class Task {
     private int id;

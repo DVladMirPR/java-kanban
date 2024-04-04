@@ -34,7 +34,7 @@ public class Main {
 
         manager.updateTask(task1);
         manager.updateTask(task2);
-        manager.updateSubtask(new Subtask(1, "Новое название", "Новое описание", epic1.getId())); // Пример обновления подзадачи
+        manager.updateSubtask(new Subtask(1, "Подзадача NEW", "Накормить себя", epic1.getId()));
         manager.updateEpic(epic1);
 
         System.out.println("Статусы после изменений:");

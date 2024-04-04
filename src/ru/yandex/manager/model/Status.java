@@ -1,4 +1,4 @@
-package ru.yandex.manager.service;
+package ru.yandex.manager.model;
 
 public enum Status {
     NEW,
