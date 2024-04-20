@@ -36,8 +36,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addSubtask(int epicId,Subtask subtask) {
-        if (subtask.getEpicId() == epicId) {
+    public void addSubtask(int epicId, Subtask subtask) {
+        if (subtask.getEpicId() == subtask.getId()) {
             throw new IllegalArgumentException("Измените тип");
         }
         subtask.setId(generateId());
@@ -153,35 +153,27 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpic(int id) {
         Epic epic = epics.get(id);
-        if (epic != null) {
-            historyManager.addToHistory(epic);
-        }
-
+        historyManager.addToHistory(epic);
         return epic;
     }
 
     @Override
     public Task getTask(int id) {
         Task task = tasks.get(id);
-        if (task != null) {
-            historyManager.addToHistory(task);
-        }
-
+        historyManager.addToHistory(task);
         return task;
     }
 
     @Override
     public Subtask getSubtask(int id) {
         Subtask subtask = subtasks.get(id);
-        if (subtask != null) {
-            historyManager.addToHistory(subtask);
-        }
+        historyManager.addToHistory(subtask);
         return subtask;
     }
 
     @Override
     public List<Task> getHistory() {
-        return new ArrayList<>(historyManager.getHistory());
+        return historyManager.getHistory();
     }
 
     private void updateEpicStatus(int epicId) {

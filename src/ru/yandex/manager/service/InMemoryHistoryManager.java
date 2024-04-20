@@ -7,8 +7,7 @@ import java.util.ArrayList;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final List<Task>history = new ArrayList<>();
-
+    private final List<Task> history = new ArrayList<>(); //Ответ:LinkedList<>() и метод .removeFirst()
     @Override
     public void addToHistory(Task task) {
         if (task != null) {
