@@ -3,7 +3,6 @@ package ru.yandex.manager;
 import ru.yandex.manager.model.Epic;
 import ru.yandex.manager.model.Subtask;
 import ru.yandex.manager.model.Task;
-import ru.yandex.manager.service.InMemoryTaskManager;
 import ru.yandex.manager.service.Managers;
 import ru.yandex.manager.service.TaskManager;
 
@@ -36,14 +35,6 @@ public class Main {
         for (Subtask subtask : manager.getAllSubtasks()) {
             manager.getSubtask(subtask.getId());
         }
-        /* Для проверки удаления
-        manager.getTask(task1.getId());
-        manager.getTask(task2.getId());
-        manager.getTask(task1.getId());
-        manager.getTask(task2.getId());
-        manager.getEpic(epic2.getId());
-        manager.getEpic(epic1.getId());
-         */
 
         System.out.println("История:");
         for (Task task : manager.getHistory()) {
