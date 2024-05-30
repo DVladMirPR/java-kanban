@@ -63,10 +63,10 @@ class InMemoryHistoryManagerTest {
     @DisplayName("Ensure no duplicate tasks in history")
     @Test
     void shouldNotHaveDuplicateTasksInHistory() {
+        int sizeBeforeAdd = historyManager.getHistory().size();
         historyManager.add(task);
+        int sizeAfterAdd = historyManager.getHistory().size();
 
-        List<Task> history = historyManager.getHistory();
-
-        assertEquals(task, history.get(2));
+        assertEquals(sizeBeforeAdd, sizeAfterAdd, "История содержит дубликаты задач");
     }
 }

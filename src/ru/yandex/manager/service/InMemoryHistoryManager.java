@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    private final Map<Integer, Node> map = new HashMap<>();
+    private final Map<Integer, Node> nodeHashMap = new HashMap<>();
     private Node head;
     private Node tail;
 
@@ -21,10 +21,8 @@ public class InMemoryHistoryManager implements HistoryManager {
 
     @Override
     public void remove(int id) {
-        Node node = map.remove(id);
-        if (node != null) {
-            removeNode(node);
-        }
+        Node node = nodeHashMap.remove(id);
+        removeNode(node);
     }
 
     public List<Task> getTasks() {
@@ -52,7 +50,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             newNode.prev = tail;
             tail = newNode;
         }
-        map.put(task.getId(), newNode);
+        nodeHashMap.put(task.getId(), newNode);
     }
 
     private void removeNode(Node node) {
@@ -72,9 +70,9 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     private static class Node {
-        Task task;
-        Node prev;
-        Node next;
+        private final Task task;
+        private Node prev;
+        private Node next;
 
         public Node(Task task) {
             this.task = task;
