@@ -78,4 +78,3 @@ class InMemoryTaskManagerTest {
         assertEquals(task.getStatus(), TaskFromManager.getStatus());
     }
 }
-

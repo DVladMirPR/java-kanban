@@ -1,6 +1,7 @@
 package ru.yandex.manager.model;
 
 import java.util.Objects;
+
 public class Task {
     private int id;
     private String title;
