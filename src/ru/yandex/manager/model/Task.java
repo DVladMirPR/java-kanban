@@ -51,10 +51,6 @@ public class Task {
         this.status = status;
     }
 
-    public Integer getEpicId() {
-        return null;
-    }
-
     public TaskType getType() {
         return TaskType.TASK;
     }

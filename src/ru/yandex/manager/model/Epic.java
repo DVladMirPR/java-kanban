@@ -10,11 +10,6 @@ public class Epic extends Task {
     }
 
     @Override
-    public Integer getEpicId() {
-        return null;
-    }
-
-    @Override
     public TaskType getType() {
         return TaskType.EPIC;
     }
