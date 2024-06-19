@@ -17,7 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     protected final Map<Integer, Subtask> subtasks = new HashMap<>();
 
     private final HistoryManager historyManager;
-    int currentId = 0;
+    protected int currentId = 0;
 
     public InMemoryTaskManager(HistoryManager historyManager) {
         this.historyManager = historyManager;
