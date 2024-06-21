@@ -2,9 +2,9 @@ package ru.yandex.manager.service;
 
 import ru.yandex.manager.model.Task;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class InMemoryHistoryManager implements HistoryManager {
@@ -44,12 +44,11 @@ public class InMemoryHistoryManager implements HistoryManager {
         Node newNode = new Node(task);
         if (tail == null) {
             head = newNode;
-            tail = newNode;
         } else {
             tail.next = newNode;
             newNode.prev = tail;
-            tail = newNode;
         }
+        tail = newNode;
         nodeHashMap.put(task.getId(), newNode);
     }
 

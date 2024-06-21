@@ -9,10 +9,14 @@ public class Task {
     private Status status;
 
     public Task(int id, String title, String description) {
+        this(id, title, description, Status.NEW);
+    }
+
+    public Task(int id, String title, String description, Status status) {
         this.id = id;
         this.title = title;
         this.description = description;
-        this.status = Status.NEW;
+        this.status = status;
     }
 
     public int getId() {
@@ -47,11 +51,14 @@ public class Task {
         this.status = status;
     }
 
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
         return id == task.id;
     }
@@ -63,10 +70,6 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                '}';
+        return "Task{" + "id=" + id + ", title='" + title + '\'' + ", description='" + description + '\'' + '}';
     }
 }
