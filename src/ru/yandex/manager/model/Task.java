@@ -1,5 +1,7 @@
 package ru.yandex.manager.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
@@ -7,16 +9,22 @@ public class Task {
     private String title;
     private String description;
     private Status status;
+    private Duration duration;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
-    public Task(int id, String title, String description) {
-        this(id, title, description, Status.NEW);
-    }
-
-    public Task(int id, String title, String description, Status status) {
+    public Task(int id, String title, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
+        this.duration = duration;
+        this.startTime = startTime;
+        this.endTime = calculateEndTime();
+    }
+
+    public Task(int id, String title, String description) {
+        this(id, title, description, Status.NEW, Duration.ofMinutes(15), LocalDateTime.now());
     }
 
     public int getId() {
@@ -47,12 +55,38 @@ public class Task {
         return status;
     }
 
+    public TaskType getType() {
+        return TaskType.TASK;
+    }
+
     public void setStatus(Status status) {
         this.status = status;
     }
 
-    public TaskType getType() {
-        return TaskType.TASK;
+    public Duration getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Duration duration) {
+        this.duration = duration;
+        this.endTime = calculateEndTime();
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(LocalDateTime startTime) {
+        this.startTime = startTime;
+        this.endTime = calculateEndTime();
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    private LocalDateTime calculateEndTime() {
+        return startTime.plus(duration);
     }
 
     @Override
@@ -70,6 +104,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Task{" + "id=" + id + ", title='" + title + '\'' + ", description='" + description + '\'' + '}';
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", status=" + status +
+                ", duration=" + duration +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                '}';
     }
 }

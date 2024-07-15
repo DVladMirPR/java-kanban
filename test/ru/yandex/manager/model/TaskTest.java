@@ -14,6 +14,4 @@ public class TaskTest {
 
         assertEquals(task1, task2, "Задачи должны быть одинаковые по Id");
     }
-
-
 }

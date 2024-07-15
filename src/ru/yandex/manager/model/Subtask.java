@@ -1,18 +1,22 @@
 package ru.yandex.manager.model;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
+
 public class Subtask extends Task {
     private int epicId;
 
     public Subtask(int id, String title, String description, int epicId) {
-        this(id, title, description, Status.NEW, epicId);
-    }
-
-    public Subtask(int id, String title, String description, Status status, int epicId) {
-        super(id, title, description, status);
+        super(id, title, description, Status.NEW, Duration.ofMinutes(15), LocalDateTime.now());
         this.epicId = epicId;
     }
 
-    public Integer getEpicId() {
+    public Subtask(int id, String title, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
+        super(id, title, description, status, duration, startTime);
+        this.epicId = epicId;
+    }
+
+    public int getEpicId() {
         return epicId;
     }
 
@@ -25,9 +29,27 @@ public class Subtask extends Task {
         return TaskType.SUBTASK;
     }
 
+    @Override
+    public void setDuration(Duration duration) {
+        super.setDuration(duration);
+    }
+
+    @Override
+    public void setStartTime(LocalDateTime startTime) {
+        super.setStartTime(startTime);
+    }
 
     @Override
     public String toString() {
-        return "Subtask{" + "epicId=" + epicId + ", id=" + getId() + ", title='" + getTitle() + '\'' + ", description='" + getDescription() + '\'' + '}';
+        return "Subtask{" +
+                "epicId=" + epicId +
+                ", id=" + getId() +
+                ", title='" + getTitle() + '\'' +
+                ", description='" + getDescription() + '\'' +
+                ", status=" + getStatus() +
+                ", duration=" + getDuration() +
+                ", startTime=" + getStartTime() +
+                ", endTime=" + getEndTime() +
+                '}';
     }
 }

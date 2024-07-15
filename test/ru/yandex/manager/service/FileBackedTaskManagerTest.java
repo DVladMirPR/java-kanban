@@ -11,20 +11,24 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class FileBackedTaskManagerTest {
-    private FileBackedTaskManager manager;
+class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
+
     private File file;
 
     @BeforeEach
-    void setUp() throws IOException {
-        file = File.createTempFile("test", ".csv");
-        file.deleteOnExit();
-        manager = new FileBackedTaskManager(Managers.getDefaultHistory(), file);
+    public void setUp() {
+        try {
+            file = File.createTempFile("test", ".csv");
+            file.deleteOnExit();
+            manager = new FileBackedTaskManager(Managers.getDefaultHistory(), file);
+        } catch (IOException e) {
+            throw new RuntimeException("Не удалось создать файл", e);
+        }
     }
 
     @DisplayName("Save and load multiple tasks")
