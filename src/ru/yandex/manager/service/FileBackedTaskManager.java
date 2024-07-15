@@ -115,6 +115,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             throw new ManagerSaveException("Неверный тип", e);
         }
     }
+
     private void loadTasksFromFile() {
         try {
             List<String> lines = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
@@ -194,7 +195,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                 return new Epic(id, title, description, status, duration, startTime);
             case SUBTASK:
                 int epicId = Integer.parseInt(fields[7]);
-                return new Subtask(id, title, description, status,epicId, duration, startTime);
+                return new Subtask(id, title, description, status, epicId, duration, startTime);
             default:
                 throw new ManagerSaveException("Неизвестный тип задачи: " + type, null);
         }
