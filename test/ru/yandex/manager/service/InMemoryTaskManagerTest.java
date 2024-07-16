@@ -34,8 +34,8 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Test
     void ShouldBeEqualWithCreatedTasks() {
         Task expectedTask = manager.getTask(0);
-        Epic expectedEpic = manager.getEpic(2);
-        Subtask expectedSubtask = manager.getSubtask(3);
+        Epic expectedEpic = manager.getEpic(1);
+        Subtask expectedSubtask = manager.getSubtask(2);
 
         assertEquals(new Task(0, "Задача 1", "Описание 1", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 15, 0)), expectedTask);
         assertEquals(new Epic(1, "Эпик 1", "Описание эпика"), expectedEpic);
