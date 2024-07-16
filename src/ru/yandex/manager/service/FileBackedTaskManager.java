@@ -149,7 +149,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             }
             currentId = maxId;
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка загрузки файла", e);
+            throw new ManagerSaveException("Ошибка загрузки данных из файла", e);
         }
     }
 
@@ -166,17 +166,17 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     subtask.getStartTime().format(formatter),
                     subtask.getDuration().toMinutes());
         } else {
-            return String.format("%d,%s,%s,%s,%s,null,%s,%d",
+            return String.format("%d,%s,%s,%s,%s,%s,%s,%d",
                     task.getId(),
                     task.getType(),
                     task.getTitle(),
                     task.getStatus(),
                     task.getDescription(),
+                    "null",
                     task.getStartTime().format(formatter),
                     task.getDuration().toMinutes());
         }
     }
-
 
     private Task fromString(String value) {
         String[] fields = value.split(",");
@@ -185,8 +185,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         String title = fields[2];
         Status status = Status.valueOf(fields[3]);
         String description = fields[4];
-        LocalDateTime startTime = LocalDateTime.parse(fields[5], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-        Duration duration = Duration.ofMinutes(Long.parseLong(fields[6]));
+        String epicIdString = fields[5];
+        LocalDateTime startTime = LocalDateTime.parse(fields[6], DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        Duration duration = Duration.ofMinutes(Long.parseLong(fields[7]));
 
         switch (type) {
             case TASK:
@@ -194,7 +195,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             case EPIC:
                 return new Epic(id, title, description, status, duration, startTime);
             case SUBTASK:
-                int epicId = Integer.parseInt(fields[7]);
+                int epicId = Integer.parseInt(epicIdString);
                 return new Subtask(id, title, description, status, epicId, duration, startTime);
             default:
                 throw new ManagerSaveException("Неизвестный тип задачи: " + type, null);

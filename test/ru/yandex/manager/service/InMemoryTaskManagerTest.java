@@ -19,11 +19,11 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @Override
     @BeforeEach
     public void setUp() {
-        manager = (InMemoryTaskManager) Managers.getDefaults();
+        manager = new InMemoryTaskManager(new InMemoryHistoryManager());
 
-        Task task = new Task(1, "Задача 1", "Описание 1", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 15, 0));
-        Epic epic = new Epic(2, "Эпик 1", "Описание эпика");
-        Subtask subtask = new Subtask(3, "Подзадача 1", "Подзадача Эпика 1", Status.NEW, 2, Duration.ofMinutes(30), LocalDateTime.of(2024, 7, 10, 16, 10));
+        Task task = new Task(0, "Задача 1", "Описание 1", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 15, 0));
+        Epic epic = new Epic(1, "Эпик 1", "Описание эпика");
+        Subtask subtask = new Subtask(2, "Подзадача 1", "Подзадача Эпика 1", Status.NEW, 1, Duration.ofMinutes(30), LocalDateTime.of(2024, 7, 10, 16, 10));
 
         manager.addTask(task);
         manager.addEpic(epic);
@@ -33,21 +33,21 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @DisplayName("Checks that the created task/epic/subtask matches the added one")
     @Test
     void ShouldBeEqualWithCreatedTasks() {
-        Task expectedTask = manager.getTask(1);
+        Task expectedTask = manager.getTask(0);
         Epic expectedEpic = manager.getEpic(2);
         Subtask expectedSubtask = manager.getSubtask(3);
 
-        assertEquals(new Task(1, "Задача 1", "Описание 1", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 15, 15, 0)), expectedTask);
-        assertEquals(new Epic(2, "Эпик 1", "Описание эпика"), expectedEpic);
-        assertEquals(new Subtask(3, "Подзадача 1", "Подзадача Эпика 1", Status.NEW, 2, Duration.ofMinutes(30), LocalDateTime.of(2024, 7, 10, 16, 10)), expectedSubtask);
+        assertEquals(new Task(0, "Задача 1", "Описание 1", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 15, 0)), expectedTask);
+        assertEquals(new Epic(1, "Эпик 1", "Описание эпика"), expectedEpic);
+        assertEquals(new Subtask(2, "Подзадача 1", "Подзадача Эпика 1", Status.NEW, 1, Duration.ofMinutes(30), LocalDateTime.of(2024, 7, 10, 16, 10)), expectedSubtask);
     }
 
     @DisplayName("Checks that the created task is not null")
     @Test
     void ShouldCheckExistTaskNotNull() {
-        Task expectedTask = manager.getTask(1);
-        Epic expectedEpic = manager.getEpic(2);
-        Subtask expectedSubtask = manager.getSubtask(3);
+        Task expectedTask = manager.getTask(0);
+        Epic expectedEpic = manager.getEpic(1);
+        Subtask expectedSubtask = manager.getSubtask(2);
 
         assertNotNull(expectedTask);
         assertNotNull(expectedEpic);
@@ -57,7 +57,7 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @DisplayName("Checks that tasks with the same Id do not conflict")
     @Test
     void shouldCheckTasksWithSameIdNotConflict() {
-        Task taskWithSameId = new Task(1, "Задача с установленным ID", "И другим описанием", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2023, 7, 15, 17, 0));
+        Task taskWithSameId = new Task(0, "Задача с установленным ID", "И другим описанием", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2023, 7, 15, 17, 0));
         manager.addTask(taskWithSameId);
 
         assertTrue(manager.getAllTasks().contains(taskWithSameId));
@@ -66,12 +66,14 @@ class InMemoryTaskManagerTest extends TaskManagerTest<InMemoryTaskManager> {
     @DisplayName("Checks the immutability of the task when adding a task to the manager")
     @Test
     void ShouldCheckImmutabilityParameters() {
-        Task taskFromManager = manager.getTask(1);
+        Task taskFromManager = manager.getTask(0);
 
-        assertEquals(1, taskFromManager.getId());
+        assertEquals(0, taskFromManager.getId());
         assertEquals("Задача 1", taskFromManager.getTitle());
         assertEquals("Описание 1", taskFromManager.getDescription());
         assertEquals(Status.NEW, taskFromManager.getStatus());
+        assertEquals(Duration.ofMinutes(60), taskFromManager.getDuration());
+        assertEquals(LocalDateTime.of(2024, 7, 10, 15, 0), taskFromManager.getStartTime());
     }
 
     @DisplayName("Should throw ValidationException when task not valid")
