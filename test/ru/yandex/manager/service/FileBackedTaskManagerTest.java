@@ -38,7 +38,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void shouldSaveAndLoadMultipleTasks() {
         Task task1 = new Task(1, "Задача1", "ТАСК", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 15, 0));
-        Task task2 = new Task(2, "Задача2", "Задача2",Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 16, 0));
+        Task task2 = new Task(2, "Задача2", "Задача2", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 16, 0));
         Epic epic1 = new Epic(3, "Эпик1", "Гигант");
         Subtask subtask1 = new Subtask(4, "Подзадача1", "Подзадача эпика1", Status.NEW, 3, Duration.ofMinutes(30), LocalDateTime.of(2024, 7, 11, 16, 10));
 
@@ -58,7 +58,7 @@ class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> {
     @Test
     void shouldSaveTasksInCorrectFormat() {
         Task task = new Task(0, "Задача", "Проверка", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 10, 15, 0));
-        Task task2 = new Task(1, "Задача1", "Проверка",Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 11, 16, 0));
+        Task task2 = new Task(1, "Задача1", "Проверка", Status.NEW, Duration.ofMinutes(60), LocalDateTime.of(2024, 7, 11, 16, 0));
         manager.addTask(task);
         manager.addTask(task2);
 
