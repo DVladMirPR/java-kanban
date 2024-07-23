@@ -7,6 +7,7 @@ import java.util.List;
 
 public class Epic extends Task {
     private final List<Subtask> subTasks = new ArrayList<>();
+    private LocalDateTime endTime;
 
     public Epic(int id, String title, String description) {
         super(id, title, description, Status.NEW, Duration.ZERO, LocalDateTime.now());
@@ -19,11 +20,13 @@ public class Epic extends Task {
     public void addSubtask(Subtask subtask) {
         subTasks.add(subtask);
         calculateEpicTime();
+        updateEpicStatus();
     }
 
     public void removeSubtask(Subtask subtask) {
         subTasks.remove(subtask);
         calculateEpicTime();
+        updateEpicStatus();
     }
 
     public void updateSubtask(Subtask subtask) {
@@ -34,6 +37,7 @@ public class Epic extends Task {
             }
         }
         calculateEpicTime();
+        updateEpicStatus();
     }
 
     public TaskType getType() {
@@ -44,13 +48,33 @@ public class Epic extends Task {
         return new ArrayList<>(subTasks);
     }
 
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public void updateEpicStatus() {
+        long countNew = subTasks.stream().filter(subtask -> subtask.getStatus() == Status.NEW).count();
+        long countDone = subTasks.stream().filter(subtask -> subtask.getStatus() == Status.DONE).count();
+        int size = subTasks.size();
+        if (countNew == size) {
+            this.setStatus(Status.NEW);
+        } else if (countDone == size) {
+            this.setStatus(Status.DONE);
+        } else {
+            this.setStatus(Status.IN_PROGRESS);
+        }
+    }
+
     private void calculateEpicTime() {
         if (subTasks.isEmpty()) {
             this.setStartTime(LocalDateTime.now());
             this.setDuration(Duration.ZERO);
+            this.endTime = LocalDateTime.now();
         } else {
             LocalDateTime earliestStart = LocalDateTime.MAX;
             LocalDateTime latestEnd = LocalDateTime.MIN;
+            Duration totalDuration = Duration.ZERO;
 
             for (Subtask subtask : subTasks) {
                 if (subtask.getStartTime().isBefore(earliestStart)) {
@@ -59,10 +83,12 @@ public class Epic extends Task {
                 if (subtask.getEndTime().isAfter(latestEnd)) {
                     latestEnd = subtask.getEndTime();
                 }
+                totalDuration = totalDuration.plus(subtask.getDuration());
             }
 
             this.setStartTime(earliestStart);
-            this.setDuration(Duration.between(earliestStart, latestEnd));
+            this.setDuration(totalDuration);
+            this.endTime = latestEnd;
         }
     }
 

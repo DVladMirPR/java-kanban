@@ -11,7 +11,6 @@ public class Task {
     private Status status;
     private Duration duration;
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
 
     public Task(int id, String title, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.id = id;
@@ -20,7 +19,6 @@ public class Task {
         this.status = status;
         this.duration = duration;
         this.startTime = startTime;
-        this.endTime = calculateEndTime();
     }
 
     public Task(int id, String title, String description) {
@@ -69,7 +67,6 @@ public class Task {
 
     public void setDuration(Duration duration) {
         this.duration = duration;
-        this.endTime = calculateEndTime();
     }
 
     public LocalDateTime getStartTime() {
@@ -78,14 +75,9 @@ public class Task {
 
     public void setStartTime(LocalDateTime startTime) {
         this.startTime = startTime;
-        this.endTime = calculateEndTime();
     }
 
     public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    private LocalDateTime calculateEndTime() {
         return startTime.plus(duration);
     }
 
@@ -111,7 +103,7 @@ public class Task {
                 ", status=" + status +
                 ", duration=" + duration +
                 ", startTime=" + startTime +
-                ", endTime=" + endTime +
+                ", endTime=" + getEndTime() + // Используем getEndTime() для получения актуального значения
                 '}';
     }
 }

@@ -29,15 +29,6 @@ public class Subtask extends Task {
         return TaskType.SUBTASK;
     }
 
-    @Override
-    public void setDuration(Duration duration) {
-        super.setDuration(duration);
-    }
-
-    @Override
-    public void setStartTime(LocalDateTime startTime) {
-        super.setStartTime(startTime);
-    }
 
     @Override
     public String toString() {
