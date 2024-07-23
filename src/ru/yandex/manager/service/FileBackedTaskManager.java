@@ -10,6 +10,7 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.ArrayList;
 
 public class FileBackedTaskManager extends InMemoryTaskManager {
     private final File file;
@@ -132,22 +133,24 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case EPIC -> {
                         Epic epic = (Epic) task;
                         epics.put(epic.getId(), epic);
+                        epicSubtasks.put(epic.getId(), new ArrayList<>());
                         if (epic.getId() > maxId) {
                             maxId = epic.getId();
                         }
                     }
                     case SUBTASK -> {
                         Subtask subtask = (Subtask) task;
+                        subtask.setEpicId(subtask.getEpicId());
+                        epics.get(subtask.getEpicId()).addSubtask(subtask);
                         if (subtask.getId() > maxId) {
                             maxId = subtask.getId();
                         }
-                        addSubtask(subtask.getEpicId(), subtask);
                     }
                 }
             }
-            currentId = maxId;
+            currentId = maxId + 1;
         } catch (IOException e) {
-            throw new ManagerSaveException("Ошибка загрузки данных из файла", e);
+            throw new ManagerSaveException("Ошибка загрузки файла", e);
         }
     }
 
