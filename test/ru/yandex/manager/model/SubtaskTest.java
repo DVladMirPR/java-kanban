@@ -19,6 +19,6 @@ public class SubtaskTest {
         boolean subtasksEqual = subtask1.equals(subtask2);
 
 
-        assertEquals(true, subtasksEqual, "Подзадача с одинаковым Id должны быть равны");
+        assertTrue(subtasksEqual, "Подзадача с одинаковым Id должны быть равны");
     }
 }
