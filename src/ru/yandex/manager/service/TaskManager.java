@@ -46,4 +46,6 @@ public interface TaskManager {
     Task getTask(int id);
 
     Subtask getSubtask(int id);
+
+    List<Task> getPrioritizedTasks();
 }

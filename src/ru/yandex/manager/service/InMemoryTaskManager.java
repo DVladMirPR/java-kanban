@@ -27,6 +27,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void addTask(Task task) {
+        if (task == null) {
+            throw new NotFoundException("Подзадача не найдена");
+        }
         if (!isValid(task)) {
             throw new ValidationException("Задача пересекается с другой задачей или подзадачей");
         }
@@ -39,6 +42,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void addEpic(Epic epic) {
         epic.setId(generateId());
         epics.put(epic.getId(), epic);
+        epicSubtasks.put(epic.getId(), new ArrayList<>());
     }
 
     @Override
@@ -107,7 +111,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (epic == null) {
             throw new NotFoundException("Эпик не найден");
         }
-        List<Subtask> subtasksOfEpic = getEpic(epicId).getSubtasks();
+        List<Subtask> subtasksOfEpic = epic.getSubtasks();
         for (Subtask subtask : subtasksOfEpic) {
             deleteSubtask(subtask.getId());
         }
@@ -169,14 +173,20 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Epic getEpic(int id) {
         Epic epic = epics.get(id);
-        historyManager.add(epic);
+        if (epic != null) {
+            historyManager.add(epic);
+        }
         return epic;
     }
 
     @Override
     public Task getTask(int id) {
         Task task = tasks.get(id);
-        historyManager.add(task);
+        if (task == null) {
+            throw new NotFoundException("Подзадача не найдена");
+        } else {
+            historyManager.add(task);
+        }
         return task;
     }
 
@@ -194,6 +204,7 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
+    @Override
     public List<Task> getPrioritizedTasks() {
         return new ArrayList<>(prioritizedTasks);
     }
