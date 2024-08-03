@@ -5,11 +5,13 @@ import com.sun.net.httpserver.HttpExchange;
 import ru.yandex.manager.model.Subtask;
 import ru.yandex.manager.service.TaskManager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class SubtasksHandler extends BaseHttpHandler {
     public SubtasksHandler(TaskManager taskManager, Gson gson) {
@@ -44,12 +46,14 @@ public class SubtasksHandler extends BaseHttpHandler {
                     }
                     break;
                 case "POST":
-                    if (exchange.getRequestBody().available() == 0) {
+                    String requestBody = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))
+                            .lines()
+                            .collect(Collectors.joining("\n"));
+                    if (requestBody.isEmpty()) {
                         sendError(exchange, 400, "Пустое тело запроса");
                         return;
                     }
-                    Reader reader = new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8);
-                    Subtask subtask = gson.fromJson(reader, Subtask.class);
+                    Subtask subtask = gson.fromJson(requestBody, Subtask.class);
                     if (subtask.getId() == null) {
                         taskManager.addSubtask(subtask.getEpicId(), subtask);
                         sendText(exchange, "Подзадача добавлена", 201);

@@ -5,11 +5,10 @@ import com.sun.net.httpserver.HttpExchange;
 import ru.yandex.manager.model.Task;
 import ru.yandex.manager.service.TaskManager;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TasksHandler extends BaseHttpHandler {
     public TasksHandler(TaskManager taskManager, Gson gson) {
@@ -44,12 +43,14 @@ public class TasksHandler extends BaseHttpHandler {
                     }
                     break;
                 case "POST":
-                    if (exchange.getRequestBody().available() == 0) {
+                    String requestBody = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))
+                            .lines()
+                            .collect(Collectors.joining("\n"));
+                    if (requestBody.isEmpty()) {
                         sendError(exchange, 400, "Пустое тело запроса");
                         return;
                     }
-                    Reader reader = new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8);
-                    Task task = gson.fromJson(reader, Task.class);
+                    Task task = gson.fromJson(requestBody, Task.class);
                     if (task.getId() == null) {
                         taskManager.addTask(task);
                         sendText(exchange, "Задача успешно добавлена", 201);

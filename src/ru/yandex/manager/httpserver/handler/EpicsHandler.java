@@ -6,11 +6,13 @@ import ru.yandex.manager.model.Epic;
 import ru.yandex.manager.model.Subtask;
 import ru.yandex.manager.service.TaskManager;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EpicsHandler extends BaseHttpHandler {
     public EpicsHandler(TaskManager taskManager, Gson gson) {
@@ -54,12 +56,14 @@ public class EpicsHandler extends BaseHttpHandler {
                     }
                     break;
                 case "POST":
-                    if (exchange.getRequestBody().available() == 0) {
+                    String requestBody = new BufferedReader(new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8))
+                            .lines()
+                            .collect(Collectors.joining("\n"));
+                    if (requestBody.isEmpty()) {
                         sendError(exchange, 400, "Пустое тело запроса");
                         return;
                     }
-                    Reader reader = new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8);
-                    Epic epic = gson.fromJson(reader, Epic.class);
+                    Epic epic = gson.fromJson(requestBody, Epic.class);
                     if (epic.getId() == null) {
                         taskManager.addEpic(epic);
                         sendText(exchange, "Эпик успешно добавлен", 201);
