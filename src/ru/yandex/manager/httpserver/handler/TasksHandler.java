@@ -12,12 +12,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class TasksHandler extends BaseHttpHandler {
-    private final TaskManager taskManager;
-    private final Gson gson;
-
     public TasksHandler(TaskManager taskManager, Gson gson) {
-        this.taskManager = taskManager;
-        this.gson = gson;
+        super(taskManager, gson);
     }
 
     @Override
@@ -48,6 +44,10 @@ public class TasksHandler extends BaseHttpHandler {
                     }
                     break;
                 case "POST":
+                    if (exchange.getRequestBody().available() == 0) {
+                        sendError(exchange, 400, "Пустое тело запроса");
+                        return;
+                    }
                     Reader reader = new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8);
                     Task task = gson.fromJson(reader, Task.class);
                     if (task.getId() == null) {

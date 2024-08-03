@@ -1,4 +1,4 @@
-package ru.yandex.manager.httpserver.Gson;
+package ru.yandex.manager.httpserver.gson;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;

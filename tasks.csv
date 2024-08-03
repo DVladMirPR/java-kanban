@@ -1,5 +1,2 @@
 id,type,name,status,description,epic,startTime,duration
-4,TASK,New Task2,null,Description 2,null,2024-07-31 12:00:00,60
-0,EPIC,null,null,This is my epic,null,null,null
-2,EPIC,New Epic,IN_PROGRESS,Description of the new epic,null,2024-08-02 12:00:00,60
-3,SUBTASK,New Subtask,null,Description of the new subtask,2,2024-08-02 12:00:00,60
+0,TASK,New Task,null,Description of the new task,null,2024-08-01 12:00:00,60

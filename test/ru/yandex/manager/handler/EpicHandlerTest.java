@@ -7,9 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import ru.yandex.manager.httpserver.Gson.TimeAdapter;
+import ru.yandex.manager.httpserver.gson.TimeAdapter;
 import ru.yandex.manager.httpserver.HttpTaskServer;
 import ru.yandex.manager.model.Epic;
+import ru.yandex.manager.model.Status;
+import ru.yandex.manager.model.Subtask;
 import ru.yandex.manager.service.InMemoryHistoryManager;
 import ru.yandex.manager.service.InMemoryTaskManager;
 
@@ -177,6 +179,61 @@ public class EpicHandlerTest {
 
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             assertEquals(404, response.statusCode());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Test Get Subtasks of Epic")
+    public void testGetSubtasksOfEpic() {
+        Epic epic = new Epic(null, "Epic 5", "Testing epic 5");
+        manager.addEpic(epic);
+
+        Subtask subtask1 = new Subtask(null, "Subtask 1", "Testing subtask 1", Status.NEW, epic.getId(),
+                Duration.ofMinutes(30), LocalDateTime.now());
+        Subtask subtask2 = new Subtask(null, "Subtask 2", "Testing subtask 2", Status.NEW, epic.getId(),
+                Duration.ofMinutes(5), LocalDateTime.now().plusMinutes(60));
+        manager.addSubtask(epic.getId(), subtask1);
+        manager.addSubtask(epic.getId(), subtask2);
+
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            URI url = URI.create("http://localhost:8080/epics/" + epic.getId() + "/subtasks");
+            HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+
+            List<Subtask> testingEpicSubtask = gson.fromJson(response.body(), new TypeToken<List<Subtask>>() {
+            }.getType());
+            assertEquals(2, testingEpicSubtask.size());
+            assertEquals("Subtask 1", testingEpicSubtask.get(0).getTitle());
+            assertEquals("Subtask 2", testingEpicSubtask.get(1).getTitle());
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+            fail("Exception occurred: " + e.getMessage());
+        }
+    }
+
+    @Test
+    @DisplayName("Test Get Subtasks of Epic Without Subtasks")
+    public void testGetSubtasksOfEpicWithoutSubtasks() {
+        Epic epic = new Epic(null, "Epic 6", "Testing epic 6");
+        manager.addEpic(epic);
+
+        try {
+            HttpClient client = HttpClient.newHttpClient();
+            URI url = URI.create("http://localhost:8080/epics/" + epic.getId() + "/subtasks");
+            HttpRequest request = HttpRequest.newBuilder().uri(url).GET().build();
+
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            assertEquals(200, response.statusCode());
+
+            List<Subtask> testingEpicSubtask = gson.fromJson(response.body(), new TypeToken<List<Subtask>>() {
+            }.getType());
+            assertTrue(testingEpicSubtask.isEmpty());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();
             fail("Exception occurred: " + e.getMessage());

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
-import ru.yandex.manager.httpserver.Gson.TimeAdapter;
+import ru.yandex.manager.httpserver.gson.TimeAdapter;
 import ru.yandex.manager.httpserver.HttpTaskServer;
 import ru.yandex.manager.model.Task;
 import ru.yandex.manager.model.Status;

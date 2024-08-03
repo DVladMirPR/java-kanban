@@ -3,7 +3,7 @@ package ru.yandex.manager.httpserver;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.sun.net.httpserver.HttpServer;
-import ru.yandex.manager.httpserver.Gson.TimeAdapter;
+import ru.yandex.manager.httpserver.gson.TimeAdapter;
 import ru.yandex.manager.httpserver.handler.*;
 import ru.yandex.manager.service.Managers;
 import ru.yandex.manager.service.TaskManager;

@@ -3,6 +3,7 @@ package ru.yandex.manager.httpserver.handler;
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import ru.yandex.manager.model.Epic;
+import ru.yandex.manager.model.Subtask;
 import ru.yandex.manager.service.TaskManager;
 
 import java.io.IOException;
@@ -12,12 +13,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 public class EpicsHandler extends BaseHttpHandler {
-    private final TaskManager taskManager;
-    private final Gson gson;
-
     public EpicsHandler(TaskManager taskManager, Gson gson) {
-        this.taskManager = taskManager;
-        this.gson = gson;
+        super(taskManager, gson);
     }
 
     @Override
@@ -34,6 +31,15 @@ public class EpicsHandler extends BaseHttpHandler {
                         List<Epic> epics = taskManager.getAllEpics();
                         String json = gson.toJson(epics);
                         sendText(exchange, json, 200);
+                    } else if (pathParts.length == 4) {
+                        int epicId = Integer.parseInt(pathParts[2]);
+                        List<Subtask> subtasks = taskManager.getSubtasksOfEpic(epicId);
+                        if (subtasks != null) {
+                            String json = gson.toJson(subtasks);
+                            sendText(exchange, json, 200);
+                        } else {
+                            sendNotFound(exchange);
+                        }
                     } else if (pathParts.length == 3) {
                         int epicId = Integer.parseInt(pathParts[2]);
                         Epic epic = taskManager.getEpic(epicId);
@@ -48,9 +54,12 @@ public class EpicsHandler extends BaseHttpHandler {
                     }
                     break;
                 case "POST":
+                    if (exchange.getRequestBody().available() == 0) {
+                        sendError(exchange, 400, "Пустое тело запроса");
+                        return;
+                    }
                     Reader reader = new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8);
                     Epic epic = gson.fromJson(reader, Epic.class);
-                    System.out.println("Epic received: " + epic);
                     if (epic.getId() == null) {
                         taskManager.addEpic(epic);
                         sendText(exchange, "Эпик успешно добавлен", 201);
