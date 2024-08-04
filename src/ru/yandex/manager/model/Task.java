@@ -5,14 +5,14 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class Task {
-    private int id;
+    private Integer id;
     private String title;
     private String description;
     private Status status;
     private Duration duration;
     private LocalDateTime startTime;
 
-    public Task(int id, String title, String description, Status status, Duration duration, LocalDateTime startTime) {
+    public Task(Integer id, String title, String description, Status status, Duration duration, LocalDateTime startTime) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -21,15 +21,15 @@ public class Task {
         this.startTime = startTime;
     }
 
-    public Task(int id, String title, String description) {
+    public Task(Integer id, String title, String description) {
         this(id, title, description, Status.NEW, Duration.ofMinutes(15), LocalDateTime.now());
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -86,7 +86,7 @@ public class Task {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Task task = (Task) o;
-        return id == task.id;
+        return Objects.equals(id, task.id);
     }
 
     @Override
@@ -103,7 +103,7 @@ public class Task {
                 ", status=" + status +
                 ", duration=" + duration +
                 ", startTime=" + startTime +
-                ", endTime=" + getEndTime() + // Используем getEndTime() для получения актуального значения
+                ", endTime=" + getEndTime() +
                 '}';
     }
 }

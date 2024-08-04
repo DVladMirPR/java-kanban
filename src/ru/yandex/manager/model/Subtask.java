@@ -4,14 +4,14 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 
 public class Subtask extends Task {
-    private int epicId;
+    private Integer epicId;
 
-    public Subtask(int id, String title, String description, int epicId) {
+    public Subtask(Integer id, String title, String description, int epicId) {
         super(id, title, description, Status.NEW, Duration.ofMinutes(15), LocalDateTime.now());
         this.epicId = epicId;
     }
 
-    public Subtask(int id, String title, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
+    public Subtask(Integer id, String title, String description, Status status, int epicId, Duration duration, LocalDateTime startTime) {
         super(id, title, description, status, duration, startTime);
         this.epicId = epicId;
     }
